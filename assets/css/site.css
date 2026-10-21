@@ -2058,7 +2058,7 @@
     .scroll-flight {
       position: fixed;
       z-index: 20;
-      top: clamp(66px, 10vh, 112px);
+      top: clamp(118px, 20vh, 190px);
       left: 0;
       width: min(240px, 30vw);
       height: 34px;
@@ -2069,7 +2069,7 @@
     .scroll-flight-track {
       position: fixed;
       z-index: 19;
-      top: calc(clamp(66px, 10vh, 112px) + 16px);
+      top: calc(clamp(118px, 20vh, 190px) + 16px);
       left: 0;
       width: 100vw;
       height: 1px;
@@ -2138,8 +2138,8 @@
       .wayfinding-cue { width: calc(100% - 44px); min-height: 76px; }
       .wayfinding-cue-arrow { width: 34px; font-size: 23px; }
       .wayfinding-cue-copy small { font-size: 8px; }
-      .scroll-flight { top: 72px; width: min(150px, 38vw); height: 27px; }
-      .scroll-flight-track { top: 83px; }
+      .scroll-flight { top: 90px; width: min(150px, 38vw); height: 27px; }
+      .scroll-flight-track { top: 101px; }
       .boeing-787 { height: 22px; }
       .scroll-flight-label { font-size: 6px; }
       .flight-head-meta { gap: 10px; }
