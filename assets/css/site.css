@@ -1984,3 +1984,173 @@
       .flight-roll-old,
       .flight-roll-new { animation: none !important; }
     }
+
+    /* Final wayfinding system: keep the red / blue / cyan identity in every language. */
+    :root,
+    html[data-ui-lang="zh"],
+    html[data-ui-lang="en"],
+    html[data-ui-lang="ja"] {
+      --theme: #d71920;
+      --theme-alt: #0057a8;
+      --theme-third: #00a9e0;
+      --theme-ink: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root,
+      html[data-ui-lang="zh"],
+      html[data-ui-lang="en"],
+      html[data-ui-lang="ja"] {
+        --theme: #ee3341;
+        --theme-alt: #3f8fd2;
+        --theme-third: #36c5ed;
+        --theme-ink: #ffffff;
+      }
+    }
+
+    /* A continuous message strip starts at its first item and loops without a jump. */
+    .stripe-track {
+      display: flex;
+      width: max-content;
+      min-width: 0;
+      gap: 0;
+      padding: 12px 0;
+      animation: ticker 15s linear infinite;
+      will-change: transform;
+    }
+    .stripe-group {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: clamp(26px, 4vw, 58px);
+      padding-right: clamp(26px, 4vw, 58px);
+    }
+    .stripe-track span { display: inline-flex; align-items: center; gap: 20px; }
+    .stripe-track span::after { content: "→"; margin: 0; opacity: .74; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    .wayfinding-cue {
+      width: min(1180px, calc(100% - 48px));
+      min-height: 88px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+    }
+    .wayfinding-cue-arrow {
+      width: 44px;
+      align-self: stretch;
+      display: grid;
+      place-items: center;
+      border-left: 2px solid var(--theme);
+      color: var(--theme);
+      font: 500 28px/1 "IBM Plex Mono", monospace;
+    }
+    .wayfinding-cue-copy { display: grid; gap: 3px; }
+    .wayfinding-cue-copy strong,
+    .wayfinding-cue-index { font: 700 11px/1.4 "IBM Plex Mono", monospace; letter-spacing: .08em; }
+    .wayfinding-cue-copy small { color: var(--muted); font: 600 9px/1.4 "IBM Plex Mono", monospace; letter-spacing: .04em; }
+    .wayfinding-cue-index { margin-left: auto; color: var(--muted); }
+
+    /* Scroll progress carries a 787 silhouette along one quiet route line. */
+    .scroll-flight {
+      position: fixed;
+      z-index: 20;
+      top: clamp(66px, 10vh, 112px);
+      left: 0;
+      width: min(240px, 30vw);
+      height: 34px;
+      pointer-events: none;
+      transform: translate3d(var(--flight-x, 0), 0, 0);
+      opacity: .86;
+    }
+    .scroll-flight-track {
+      position: fixed;
+      z-index: 19;
+      top: calc(clamp(66px, 10vh, 112px) + 16px);
+      left: 0;
+      width: 100vw;
+      height: 1px;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--theme) 45%, transparent), color-mix(in srgb, var(--theme-alt) 32%, transparent), color-mix(in srgb, var(--theme-third) 42%, transparent));
+    }
+    .boeing-787 { display: block; width: 100%; height: 30px; overflow: visible; fill: var(--theme); filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--bg) 80%, transparent)); }
+    .scroll-flight-label {
+      display: block;
+      margin: -1px 0 0 15px;
+      color: var(--muted);
+      font: 600 7px/1 "IBM Plex Mono", monospace;
+      letter-spacing: .12em;
+      white-space: nowrap;
+    }
+
+    .flight-board {
+      --airport-green: var(--theme);
+      --airport-green-deep: var(--theme-alt);
+    }
+    .flight-board-head { border-bottom-color: var(--theme); }
+    .flight-board-title .departure-icon { background: var(--theme); }
+    .departure-icon svg { fill: var(--theme-ink); }
+    .board-page-count b { color: var(--theme); }
+    .board-auto-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #aeb9c3;
+      font: 600 9px/1 "IBM Plex Mono", monospace;
+      letter-spacing: .08em;
+    }
+    .board-auto-indicator i { width: 6px; height: 6px; border-radius: 50%; background: var(--theme); }
+    .flight-rows { height: calc(var(--board-row-count, 4) * 68px); }
+    .flight-row { height: 68px; min-height: 68px; }
+    .flight-row:nth-child(even) { background: color-mix(in srgb, #fff 3%, var(--airport-bg)); }
+    .flight-row:nth-child(odd) { background: var(--airport-bg); }
+    .flight-row:hover { background: color-mix(in srgb, var(--theme-alt) 16%, var(--airport-bg)); }
+    .flight-note::before { background: var(--theme); }
+    .revised-time { color: var(--airport-yellow); }
+    .board-control:hover,
+    .board-control:focus-visible { background: var(--theme); color: var(--theme-ink); border-color: var(--theme); }
+    .board-pager button[aria-pressed="true"] { background: var(--theme); }
+    .flight-message { border-top-color: var(--theme); }
+
+    /* Move complete glyphs through the clipping window at one steady pace. */
+    .flight-roll { height: 1.25em; min-height: 1.25em; }
+    .flight-roll-old,
+    .flight-roll-new { display: block; padding: 0; line-height: inherit; }
+    .flight-roll-new { transform: translateY(100%); }
+    .flight-roll.is-rolling .flight-roll-old { animation: roll-up 380ms cubic-bezier(.22, .7, .28, 1) both; }
+    .flight-roll.is-rolling .flight-roll-new { animation: roll-up 380ms cubic-bezier(.22, .7, .28, 1) reverse both; }
+    .destination-roll { height: 44px; min-height: 44px; }
+    .destination-roll .destination-pair { height: 44px; }
+    .destination-roll .destination-pair > strong,
+    .destination-roll .destination-pair > small { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    @keyframes roll-up {
+      from { transform: translateY(100%); }
+      to { transform: translateY(-100%); }
+    }
+    .flight-roll.is-rolling .flight-roll-old { animation-name: roll-out-up; }
+    .flight-roll.is-rolling .flight-roll-new { animation-name: roll-in-up; }
+    @keyframes roll-out-up { to { transform: translateY(-100%); } }
+    @keyframes roll-in-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+    @media (max-width: 760px) {
+      .wayfinding-cue { width: calc(100% - 44px); min-height: 76px; }
+      .wayfinding-cue-arrow { width: 34px; font-size: 23px; }
+      .wayfinding-cue-copy small { font-size: 8px; }
+      .scroll-flight { top: 72px; width: min(150px, 38vw); height: 27px; }
+      .scroll-flight-track { top: 83px; }
+      .boeing-787 { height: 22px; }
+      .scroll-flight-label { font-size: 6px; }
+      .flight-head-meta { gap: 10px; }
+      .board-auto-indicator { font-size: 8px; }
+      .flight-rows { height: calc(var(--board-row-count, 4) * 108px); }
+      .flight-row { height: 108px; min-height: 108px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stripe-track { animation: none; transform: none; }
+      .stripe-group[aria-hidden="true"] { display: none; }
+      .scroll-flight { display: none; }
+      .flight-roll-old,
+      .flight-roll-new { animation: none !important; }
+    }

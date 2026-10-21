@@ -16,6 +16,15 @@
 <body>
   <a class="skip" href="#main">跳到正文</a>
 
+  <span class="scroll-flight-track" aria-hidden="true"></span>
+  <div class="scroll-flight" aria-hidden="true">
+    <svg class="boeing-787" viewBox="0 0 240 100" focusable="false">
+      <path d="M228 50 198 42 158 39 139 17Q134 11 129 16l10 23-49 2-48-20q-9-4-12 3l35 20-38 4-12 2 12 2 38 4-35 20q3 7 12 3l48-20 49 2-10 23q5 5 10-1l19-22 40-3z"/>
+      <path d="M96 39q-8-1-11 6l-3 5h21l3-5q-2-5-10-6zm48 0q8-1 11 6l3 5h-21l-3-5q2-5 10-6z"/>
+    </svg>
+    <span class="scroll-flight-label">787 · WAYFINDING ROUTE</span>
+  </div>
+
   <main id="main">
     <div class="site-tools">
       <span class="site-route">HND · T1 · PERSONAL DEPARTURES</span>
@@ -65,11 +74,21 @@
       </aside>
     </div>
 
-    <div class="stripe" aria-hidden="true">
+    <div class="stripe" role="region" aria-label="页面导览信息">
       <div class="stripe-track">
-        <span>BASIC INFO</span><span>INTERESTS</span><span>NOW</span>
-        <span>BASIC INFO</span><span>INTERESTS</span><span>NOW</span>
+        <div class="stripe-group">
+          <span>HND · DEPARTURES</span><span>01 · PROFILE</span><span>02 · DESIGN STUDY</span><span>03 · IN PROGRESS</span><span>SCROLL TO EXPLORE</span>
+        </div>
+        <div class="stripe-group" aria-hidden="true">
+          <span>HND · DEPARTURES</span><span>01 · PROFILE</span><span>02 · DESIGN STUDY</span><span>03 · IN PROGRESS</span><span>SCROLL TO EXPLORE</span>
+        </div>
       </div>
+    </div>
+
+    <div class="wayfinding-cue" aria-label="向下浏览">
+      <span class="wayfinding-cue-arrow" aria-hidden="true">↓</span>
+      <span class="wayfinding-cue-copy"><strong>SCROLL / 下へ</strong><small>PROFILE · DESIGN · INFORMATION</small></span>
+      <span class="wayfinding-cue-index">01 — 03</span>
     </div>
 
     <section class="wrap section flight-section" aria-labelledby="flight-title">
@@ -80,7 +99,7 @@
           <p id="flight-intro-copy">把基本信息、兴趣和近况收进一块屏幕。可手动翻页，屏内文字会按中、英、日轮番切换。</p>
         </div>
       </div>
-      <div class="flight-board" id="flight-board" aria-label="羽田机场出发信息屏风格的个人资料大屏">
+      <div class="flight-board" id="flight-board" aria-label="羽田机场出发信息屏风格的个人资料大屏，每七秒自动翻页">
         <div class="flight-board-head">
           <div class="flight-board-title">
             <span class="departure-icon" aria-hidden="true">
@@ -93,6 +112,7 @@
           </div>
           <div class="flight-head-meta">
             <span class="board-page-count">PAGE <b>01</b> / 03</span>
+            <span class="board-auto-indicator"><i aria-hidden="true"></i>AUTO · 07s</span>
             <time class="flight-clock" datetime="">HND&nbsp;&nbsp;16:07</time>
           </div>
         </div>

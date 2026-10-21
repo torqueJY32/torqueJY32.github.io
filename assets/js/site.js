@@ -12,6 +12,8 @@
       var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       var pendingRollElements = new Set();
       var pendingRollFrame = 0;
+      var boardIsVisible = false;
+      var scrollFlightFrame = 0;
 
       function scheduleRoll(element) {
         pendingRollElements.add(element);
@@ -393,6 +395,20 @@
         clock.setAttribute("datetime", now.toISOString());
       }
 
+      function scheduleScrollFlight() {
+        if (scrollFlightFrame) return;
+        scrollFlightFrame = window.requestAnimationFrame(function () {
+          scrollFlightFrame = 0;
+          var aircraft = document.querySelector(".scroll-flight");
+          var scrollRange = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+          var progress = Math.max(0, Math.min(1, window.scrollY / scrollRange));
+          var aircraftWidth = aircraft.getBoundingClientRect().width;
+          var travel = Math.max(0, window.innerWidth - aircraftWidth);
+          aircraft.style.setProperty("--flight-x", (travel * progress) + "px");
+          aircraft.style.setProperty("--flight-progress", String(progress));
+        });
+      }
+
       renderBoardNavigation();
       document.querySelectorAll(".lang-switch button").forEach(function (button) {
         button.addEventListener("click", function () { setSiteLanguage(button.getAttribute("data-lang")); });
@@ -410,8 +426,26 @@
         setBoard(boardPageIndex + 1, boardLanguageIndex, true);
       });
 
+      var boardElement = document.querySelector(".flight-board");
+      if ("IntersectionObserver" in window) {
+        var boardObserver = new IntersectionObserver(function (entries) {
+          boardIsVisible = entries.some(function (entry) { return entry.isIntersecting; });
+        }, { threshold: 0.12 });
+        boardObserver.observe(boardElement);
+      } else {
+        boardIsVisible = true;
+      }
+      window.setInterval(function () {
+        if (!boardIsVisible || document.hidden || reduceMotion.matches || boardElement.matches(":focus-within")) return;
+        setBoard(boardPageIndex + 1, boardLanguageIndex, true);
+      }, 7000);
+
+      window.addEventListener("scroll", scheduleScrollFlight, { passive: true });
+      window.addEventListener("resize", scheduleScrollFlight, { passive: true });
+
       setSiteLanguage("zh");
       updateHanedaClock();
+      scheduleScrollFlight();
       window.setInterval(updateHanedaClock, 30000);
 
     }());
